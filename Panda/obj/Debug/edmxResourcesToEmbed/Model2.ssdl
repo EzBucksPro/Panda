@@ -1,0 +1,138 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="Хранилище AlexeyModel1" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Actors">
+    <Key>
+      <PropertyRef Name="id_Actor" />
+    </Key>
+    <Property Name="id_Actor" Type="int" Nullable="false" />
+    <Property Name="Surname" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="First_Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Last_Name" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="id_Rank" Type="int" Nullable="false" />
+    <Property Name="Expirience" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Actors_Employments">
+    <Key>
+      <PropertyRef Name="id_Actors_Employments" />
+    </Key>
+    <Property Name="id_Actors_Employments" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="id_Actor" Type="int" />
+    <Property Name="id_Representation" Type="int" />
+    <Property Name="Role" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Genres">
+    <Key>
+      <PropertyRef Name="id_Genre" />
+    </Key>
+    <Property Name="id_Genre" Type="int" Nullable="false" />
+    <Property Name="Title_Genre" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Polzavateli">
+    <Key>
+      <PropertyRef Name="ID_User" />
+    </Key>
+    <Property Name="ID_User" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="login" Type="nvarchar" MaxLength="50" Nullable="false" />
+    <Property Name="password" Type="nvarchar" MaxLength="50" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Ranks">
+    <Key>
+      <PropertyRef Name="id_Rank" />
+    </Key>
+    <Property Name="id_Rank" Type="int" Nullable="false" />
+    <Property Name="Tibe_Rank" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Representations">
+    <Key>
+      <PropertyRef Name="id_Representation" />
+    </Key>
+    <Property Name="id_Representation" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Title_Representation" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Year" Type="datetime" Nullable="false" />
+    <Property Name="id_Genre" Type="int" />
+    <Property Name="Budget" Type="money" Nullable="false" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <Association Name="FK_Actors_Employments_Actors">
+    <End Role="Actors" Type="Self.Actors" Multiplicity="0..1" />
+    <End Role="Actors_Employments" Type="Self.Actors_Employments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Actors">
+        <PropertyRef Name="id_Actor" />
+      </Principal>
+      <Dependent Role="Actors_Employments">
+        <PropertyRef Name="id_Actor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Actors_Employments_Representations">
+    <End Role="Representations" Type="Self.Representations" Multiplicity="0..1" />
+    <End Role="Actors_Employments" Type="Self.Actors_Employments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Representations">
+        <PropertyRef Name="id_Representation" />
+      </Principal>
+      <Dependent Role="Actors_Employments">
+        <PropertyRef Name="id_Representation" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Actors_Ranks">
+    <End Role="Ranks" Type="Self.Ranks" Multiplicity="1" />
+    <End Role="Actors" Type="Self.Actors" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Ranks">
+        <PropertyRef Name="id_Rank" />
+      </Principal>
+      <Dependent Role="Actors">
+        <PropertyRef Name="id_Rank" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Representations_Genres">
+    <End Role="Genres" Type="Self.Genres" Multiplicity="0..1" />
+    <End Role="Representations" Type="Self.Representations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Genres">
+        <PropertyRef Name="id_Genre" />
+      </Principal>
+      <Dependent Role="Representations">
+        <PropertyRef Name="id_Genre" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="Хранилище AlexeyModel1Container">
+    <EntitySet Name="Actors" EntityType="Self.Actors" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Actors_Employments" EntityType="Self.Actors_Employments" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Polzavateli" EntityType="Self.Polzavateli" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Ranks" EntityType="Self.Ranks" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Representations" EntityType="Self.Representations" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_Actors_Employments_Actors" Association="Self.FK_Actors_Employments_Actors">
+      <End Role="Actors" EntitySet="Actors" />
+      <End Role="Actors_Employments" EntitySet="Actors_Employments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Actors_Employments_Representations" Association="Self.FK_Actors_Employments_Representations">
+      <End Role="Representations" EntitySet="Representations" />
+      <End Role="Actors_Employments" EntitySet="Actors_Employments" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Actors_Ranks" Association="Self.FK_Actors_Ranks">
+      <End Role="Ranks" EntitySet="Ranks" />
+      <End Role="Actors" EntitySet="Actors" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Representations_Genres" Association="Self.FK_Representations_Genres">
+      <End Role="Genres" EntitySet="Genres" />
+      <End Role="Representations" EntitySet="Representations" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
